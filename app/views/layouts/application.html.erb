@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Hiddeste" %></title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+
+    <meta property="og:url"   content="<%= @og.url %>">
+    <meta property="og:title" content="<%= @og.title %>">
+    <meta property="og:type"  content="<%= @og.type %>">
+    <meta property="og:image" content="<%= @og.image %>">
+    <meta property="og:site_name" content="<%= @og.site_name %>">
+    <meta property="og:description" content="<%= @og.description %>">
+    <meta property="article:author" content="<%= @og.article_author %>" >
+  </head>
+
+  <body>
+    <div class="navbar">
+      <div class="container-fluid">
+      <div class="hiddeste">
+        <header class="header">
+          <h4>
+            <%= link_to image_tag("logo120x75.png"), "/" %>
+          </h4>
+        </header>
+      </div>
+      </div>
+    </div>
+
+    <% tabs = Hashie::Mash.new %>
+    <% tabs.top      = { name: "Top", path: "/" } %>
+    <% tabs.events   = { name: "Events", path: "/events" } %>
+    <% tabs.sprt     = { terms_of_use:   { name: "Terms of Use",   path: "/terms_of_use" },
+                         privacy_policy: { name: "Privacy Policy", path: "/privacy_policy" } } %>
+    <% if logged_in? %>
+      <% tabs.mypage = { name: "My Page", path: "/users/#{current_user.id}" } %>
+      <% tabs.cog    = { config:  { name: "User Config", path: "/users/#{current_user.id}/edit" },
+                         signout: { name: "Sign Out",    path: "/signout" } } %>
+    <% else %>
+      <% tabs.signin = { name: "Sign In", path: "/authentication" } %>
+    <% end %>
+
+    <% case request.env["REQUEST_PATH"] %>
+    <% when /^\/$/                 then tabs.top.path                 = "#"; tabs.top.li_class    = "active" %>
+    <% when /^\/events(|\/)$/      then tabs.events.path              = "#"; tabs.events.li_class = "active" %>
+    <% when /^\/users\/\d+(|\/)$/  then tabs.mypage.path              = "#"; tabs.mypage.li_class = "active" %>
+    <% when /^\/users\/\d+\/edit/  then tabs.cog.config.path          = "#"; tabs.cog.li_class    = "active" %>
+    <% when /^\/authentication/    then tabs.signin.path              = "#"; tabs.signin.li_class = "active" %>
+    <% when /^\/terms_of_use/      then tabs.sprt.terms_of_use.path   = "#"; tabs.sprt.li_class   = "active" %>
+    <% when /^\/privacy_policy/    then tabs.sprt.privacy_policy.path = "#"; tabs.sprt.li_class   = "active" %>
+    <% end %>
+
+    <div class="container-fluid">
+      <ul class="nav nav-tabs">
+        <li class="<%= tabs.top.li_class %>"><%= link_to tabs.top.name, tabs.top.path %></li>
+        <li class="<%= tabs.events.li_class %>"><%= link_to tabs.events.name, tabs.events.path %></li>
+        <% if tabs.event %>
+          <li class="<%= tabs.event.li_class %>"><%= link_to tabs.event.name, tabs.event.path %></li>
+        <% end %>
+        <% if logged_in? %>
+          <li class="<%= tabs.mypage.li_class %>"><%= link_to tabs.mypage.name, tabs.mypage.path %></li>
+        <% end %>
+        <li class="dropdown <%= tabs.sprt.li_class %>">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Support<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to tabs.sprt.terms_of_use.name,   tabs.sprt.terms_of_use.path  %></li>
+            <li><%= link_to tabs.sprt.privacy_policy.name, tabs.sprt.privacy_policy.path  %></li>
+          </ul>
+        </li>
+        <% if logged_in? %>
+          <li class="dropdown <%= tabs.cog.li_class %>">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to tabs.cog.config.name,  tabs.cog.config.path  %></li>
+              <li><%= link_to tabs.cog.signout.name, tabs.cog.signout.path %></li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="<%= tabs.signin.li_class %>"><%= link_to tabs.signin.name, tabs.signin.path %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="container-fluid">
+      <%= yield %>
+    </div>
+  </body>
+</html>

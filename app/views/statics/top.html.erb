@@ -1,0 +1,15 @@
+<div class="hero-unit">
+  <h1>Hiddeste</h1>
+  <p>This application manages the information and participants of the event.</p>
+  <p>Events administrator will be able to notify the event information to the Facebook feed of participants.</p>
+  <p>Participants will be able to notify its own feed.</p>
+  <p>
+    <% if logged_in? %>
+      <% try_options = { controller: :events, action: :index } %>
+    <% else %>
+      <% try_options = { controller: :statics, action: :authentication } %>
+    <% end %>
+    <% try_html_options = { :class => "btn btn-hiddeste btn-large ", method: :get } %>
+    <%= button_to "Try This App", try_options, try_html_options %>
+  </p>
+</div>

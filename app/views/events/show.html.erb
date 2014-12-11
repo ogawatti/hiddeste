@@ -1,0 +1,149 @@
+<%- model_class = Event -%>
+<div class="page-header">
+  <h1><%= @event.name %></h1>
+</div>
+
+<% event_join_button_class   = "btn btn-hiddeste" %>
+<% event_leave_button_class  = "btn btn-danger" %>
+<% notice_me_button_class    = "btn btn-hiddeste" %>
+<% notice_all_button_class   = "btn btn-hiddeste-info" %>
+
+<!-- Event情報入力フォーム & ボタン -->
+<%= render :partial => 'form' %>
+
+<br><hr>
+
+<!-- Event参加者一覧 -->
+<h3> Joined Users</h3>
+
+<!-- Event参加/参加キャンセルボタン -->
+<% if current_user %>
+  <% if @event.users.include?(current_user) %>
+    <% event_join_name         = "Leave" %>
+    <% if organizer? %>
+      <% event_join_url = "#" %>
+      <% event_user_button_class = event_leave_button_class + " disabled" %>
+      <% event_join_method       = nil %>
+    <% else %>
+      <% user_event = UserEvent.where(user_id: current_user.id, event_id: @event.id).first %>
+      <% event_join_url = url_for(controller: "user/events", action: :destroy, id: user_event.id) %>
+      <% event_user_button_class = event_leave_button_class %>
+      <% event_join_method       = :delete %>
+    <% end %>
+  <% else %>
+    <% event_join_name         = "Join" %>
+    <% event_join_url          = url_for(controller: "user/events", action: :create, event_id: @event.id) %>
+    <% event_user_button_class = event_join_button_class %>
+    <% event_join_method       = :post %>
+  <% end %>
+  <% event_join_html_options = { :class  => event_user_button_class, :method => event_join_method } %>
+  <%= link_to event_join_name, event_join_url, event_join_html_options %>
+
+  <br><br>
+<% end %>
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+     <th>ID</th>
+     <th>Name</th>
+     <th>Organizer?</th>
+     <th>Notice?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @event.users.each do |user| %>
+      <% if current_user && user.id == current_user.id && user.id == @event.organizer_id %>
+        <tr class="hiddeste-warning">
+      <% elsif user.id == @event.organizer_id %>
+        <tr class="hiddeste-warning">
+      <% elsif current_user && user.id == current_user.id %>
+        <tr class="hiddeste-info">
+      <% else %>
+        <tr>
+      <% end %>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td>
+            <% if user.id == @event.organizer_id %>
+              <i class="icon-ok"></i>
+            <% end %>
+          </td>
+          <td>
+            <% if user.notice? %>
+              <i class="icon-ok"></i>
+            <% end %>
+          </td>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br><hr>
+
+<!-- お知らせ通知 -->
+<h3>Notice</h3>
+Notify this event information to the Facebook feed.<br>
+<br>
+<table>
+  <tr>
+    <td>
+      <% notice_options = { controller: :notices, action: :create, event_id: @event.id } %>
+      <% notice_html_options = { :class => notice_me_button_class, method: :post } %>
+
+      <!-- 自分のFacebookフィードにお知らせを通知する -->
+      <% notice_me_message      = "Notify me" %>
+      <% notice_me_options      = notice_options.dup %>
+      <% notice_me_html_options = notice_html_options.dup %>
+      <% message = "I will send a notification to your Facebook feed.\nAre you sure?" %>
+      <% notice_me_html_options.merge!({ confirm: message }) %>
+      <% if current_user && @event.users.include?(current_user) %>
+        <% notice_me_options.merge!({ user_id: current_user.id }) %>
+      <% else %>
+        <% notice_me_html_options.merge!({ disabled: true }) %>
+      <% end %>
+      <%= button_to notice_me_message, notice_me_options, notice_me_html_options %>
+    </td>
+
+    <td>
+      <!-- (主催者向け) イベント参加者全員のFacebookフィードにお知らせを通知する -->
+      <% if organizer? %>
+        <% notice_all_message = "Notify all user" %>
+        <% notice_all_html_options = notice_html_options.dup %>
+        <% message = "I will send a notification to all joined user's Facebook feed.\nAre you sure?" %>
+        <% notice_all_html_options.merge!({ confirm: message }) %>
+        <% notice_all_html_options[:class] = notice_all_button_class %>
+        <%= button_to notice_all_message, notice_options, notice_all_html_options %>
+      <% end %>
+    </td>
+  </tr>
+</table>
+
+<h4>Notice Histroy</h4>
+
+<% if @event.notices.empty? %>
+  <%= "nothing" %>
+<% else %>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Created at</th>
+      </tr>
+    </thead>
+
+    <tr class="hiddeste-info">
+      <td><%= @event.notices.first.id %></td>
+      <td><%= @event.notices.first.created_at %></td>
+    </tr>
+    <% @event.notices[1..-1].each do |notice| %>
+      <tr>
+        <td><%= notice.id %></td>
+        <td><%= notice.created_at %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+
+<br><hr><br>
+

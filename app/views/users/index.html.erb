@@ -1,0 +1,27 @@
+<h1>Users#index</h1>
+<p>Find me in app/views/users/index.html.erb</p>
+
+<table class="table table-striped table-condensed">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>UID</th>
+      <th>API Version</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+
+  <% @users.each do |user| %>
+    <% if user.active? %>
+      <tr>
+        <td><%= user.id %></td>
+        <td><%= link_to user.name, "/users/#{user.id}" %></td>
+        <td><%= link_to user.uid, user.link %></td>
+        <td><%= user.version %></td>
+        <td><%= button_to "Remove", { :action => "destroy", :id => user.id }, method: :delete %></td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tr>
+</table>

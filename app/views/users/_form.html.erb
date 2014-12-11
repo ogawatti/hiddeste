@@ -1,0 +1,75 @@
+<% errors = {} %>
+<% [:name].each do |key| %>
+  <% errors[key] = @user.errors.messages[key].blank? ? "" : "error" %>
+  <%= errors[key] %>
+<% end %>
+
+<% user_button_class        = "btn btn-hiddeste" %>
+<% user_remove_button_class = "btn btn-danger" %>
+<% user_cancel_button_class = "btn btn-default" %>
+
+<%= form_for @user,
+  :url  => { :action => "update", :id => @user.id },
+  :html => { :method => :put, :class => 'form-horizontal' } do |f| %>
+
+  <div class="control-group">
+    <%= f.label :id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :id, :class => 'text_field', :readonly => true %>
+    </div>
+  </div>
+  <div class="control-group <%= errors[:name] %>">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+      <span class="help-inline"><%= @user.errors.messages[:name].first %></span>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :provider, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :provider, :class => 'text_field', :readonly => true %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :uid, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :uid, :class => 'text_field', :readonly => true %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :notice, :class => 'control-label' %>
+    <div class="controls">
+      <label class="checkbox">
+        <% check_box_options = { checked: @user.notice? } %>
+        <%= f.check_box :notice, check_box_options, true, false %>
+        Notify the joined event to Facebook feed.
+      </label>
+    </div>
+  </div>
+
+  <!-- Event更新ボタン -->
+  <% save_button_name = @user.active? ? "Update" : "Registrate" %>
+  <div class="form-actions">
+    <% submit_options = { :name => 'update', :class => user_button_class } %>
+    <%= f.submit save_button_name, submit_options %>
+
+    <% if @user.active? %>
+      <!-- Event更新Cancelボタン(link) -->
+      <%= link_to "Cancel", url_for(action: :edit, id: @user.id), :class => user_cancel_button_class %>
+
+      <!-- User削除ボタン(link) -->
+      <% message = "I you want to remove this user from app.\nAre you sure?" %>
+      <% user_delete_url = url_for(action: :destroy, id: @user.id) %>
+      <% user_remove_html_options = { :class => user_remove_button_class,
+                                      confirm: message, 
+                                      method: :delete } %> 
+      <%= link_to "Remove", user_delete_url, user_remove_html_options %>
+    <% else %>
+      <!-- User登録キャンセルボタン(link) -->
+      <% user_delete_url = url_for(action: :destroy, id: @user.id) %>
+      <% registration_cancel_html_options = { :class => user_cancel_button_class, method: :delete } %> 
+      <%= link_to "Cancel", user_delete_url, registration_cancel_html_options %>
+    <% end %>
+  </div>
+<% end %>

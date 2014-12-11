@@ -1,0 +1,95 @@
+<% errors = {} %>
+<% [:name, :place, :date, :description].each do |key| %>
+  <% errors[key] = @event.errors.messages[key].blank? ? "" : "error" %>
+<% end %>
+
+<% if @event.persisted? %>
+  <% form_action_name = "update" %>
+  <% form_method_name = :put %>
+<% else %>
+  <% form_action_name = "create" %>
+  <% form_method_name = :post %>
+<% end %>
+
+
+<% current_user = User.find_by_id(session[:user_id]) %>
+<% logged_in = current_user && current_user.active? %>
+
+<% event_button_class        = "btn btn-hiddeste" %>
+<% event_cancel_button_class = "btn btn-default" %>
+<% event_remove_button_class = "btn btn-danger" %>
+
+<%= form_for @event,
+  :url  => { action: form_action_name },
+  :html => { method: form_method_name, :class => 'form-horizontal' } do |f| %>
+
+  <div class="control-group">
+    <%= f.label :id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :id, :readonly => true %>
+    </div>
+  </div>
+  <div class="control-group <%= errors[:name] %>">
+    <%= f.label :name, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :name, :class => 'text_field' %>
+      <span class="help-inline"><%= @event.errors.messages[:name].first %></span>
+    </div>
+  </div>
+  <div class="control-group <%= errors[:place] %>">
+    <%= f.label :place, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :place, :class => 'text_field' %>
+        <span class="help-inline"><%= @event.errors.messages[:place].first %></span>
+    </div>
+  </div>
+  <div class="control-group" <%= errors[:date] %>>
+    <%= f.label :date, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :date, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :organizer_id, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :organizer_name, :readonly => true %>
+    </div>
+  </div>
+  <div class="control-group" <%= errors[:description] %>>
+    <%= f.label :description, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :description, :class => 'text_area', :size => "37x5" %>
+    </div>
+  </div>
+
+  <% if @event.persisted? %>
+    <!-- Event更新 -->
+    <div class="form-actions">
+      <% submit_options = { :name => 'update', :class => event_button_class } %>
+      <% submit_options.merge!({ :disabled => true }) unless organizer? %>
+      <%= f.submit "Update", submit_options %>
+      
+      <!-- Event更新Cancelボタン(link) -->
+      <% if logged_in %>
+        <%= link_to "Cancel", url_for(action: :show, id: @event.id), :class => event_cancel_button_class %>
+      <% else %>
+        <%= link_to "Cancel", "#", disabled: true, :class => event_cancel_button_class %>
+      <% end %>
+
+      <!-- Event削除ボタン(link) -->
+      <% if organizer? %>
+        <% message = "I you want to remove this event.\nAre you sure?" %>
+        <% event_delete_url = url_for(action: :destroy, id: @event.id) %>
+        <% event_remove_html_options = { :class => event_remove_button_class, confirm: message, method: :delete } %> 
+        <%= link_to "Remove", event_delete_url, event_remove_html_options %>
+      <% end %>
+    </div>
+  <% else %>
+    <!-- Event作成ボタン -->
+    <div class="form-actions">
+      <%= f.submit "Create", :name => 'create', :class => event_button_class %>
+      <!-- Event更新Cancelボタン -->
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), events_path, :class => event_cancel_button_class %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,200 @@
+@import "twitter/bootstrap/bootstrap";
+@import "twitter/bootstrap/responsive";
+
+// Set the correct sprite paths
+@iconSpritePath: image-url("twitter/bootstrap/glyphicons-halflings.png");
+@iconWhiteSpritePath: image-url("twitter/bootstrap/glyphicons-halflings-white.png");
+
+// Set the Font Awesome (Font Awesome is default. You can disable by commenting below lines)
+@fontAwesomeEotPath: asset-url("fontawesome-webfont.eot");
+@fontAwesomeEotPath_iefix: asset-url("fontawesome-webfont.eot?#iefix");
+@fontAwesomeWoffPath: asset-url("fontawesome-webfont.woff");
+@fontAwesomeTtfPath: asset-url("fontawesome-webfont.ttf");
+@fontAwesomeSvgPath: asset-url("fontawesome-webfont.svg#fontawesomeregular");
+
+// Font Awesome
+@import "fontawesome/font-awesome";
+
+// Glyphicons
+//@import "twitter/bootstrap/sprites.less";
+
+// Your custom LESS stylesheets goes here
+//
+// Since bootstrap was imported above you have access to its mixins which
+// you may use and inherit here
+//
+// If you'd like to override bootstrap's own variables, you can do so here as well
+// See http://twitter.github.com/bootstrap/customize.html#variables for their names and documentation
+//
+// Example:
+// @linkColor: #ff0000;
+
+// @red:   #FF0000;
+// .hero-unit {
+//   background-color: lighten(@red, 0%);
+// }
+
+// @custom-dark-color :#000000;
+// @custom-color        :#FFFFFF;
+// .btn-primary {
+//   .buttonBackground(@custom-dark-color, @custom-color); //(button, hover)
+// }
+
+// デフォルトカラー
+@hero-unit_default_background-color:     #EEEEEE;
+@table-striped_default_background-color: #F9F9F9;
+
+// Hiddesteカラー
+@hiddeste-white:             #FFFFFF;  // white
+@hiddeste-blue:              #000080;  // navy ... t.b.d : cancelボタンまで青くなった
+@hiddeste-red:               #FF0000;  // red
+@hiddeste-orange:            #FF8000;
+@hiddeste-light-gray:        #F5F5F5;  // whitesmoke
+@hiddeste-gray:              #D3D3D3;  // lightgrey
+@hiddeste-dark-gray:         #708090;  // slategray
+@hiddeste-ultra-light-black: #808080;  // gray
+@hiddeste-super-light-black: #777777;
+@hiddeste-light-black:       #3C3C3C;
+@hiddeste-black:             #2F2F2F;
+@hiddeste-dark-black:        #050505;
+
+.hiddeste {
+  background-image: linear-gradient(@hiddeste-black, @hiddeste-dark-black);
+}
+
+.hiddeste-info {
+  background-color: @hiddeste-gray;
+}
+
+.hiddeste-warning {
+  color: @hiddeste-white;
+  background-color: @hiddeste-dark-gray;
+}
+
+@facebook-f-logo-blue:        #3A579D;
+@facebook-f-logo-dark-blue: #5C79BF;
+
+// リンク
+table, p {
+  a:visited { color: #000080; }
+  a:hover   { color: #ff0000; }
+  a:active  { color: #ff8000; }
+}
+
+// ボタン
+.btn-hiddeste {
+  .buttonBackground(@hiddeste-dark-black, @hiddeste-black);
+}
+.btn-hiddeste-info {
+  .buttonBackground(@hiddeste-super-light-black, @hiddeste-ultra-light-black);
+}
+
+// ヒーローユニット
+.hero-unit {
+  //background-color: @hiddeste-gray;
+  >h1 {
+    //color: @hiddeste-white;
+  }
+}
+
+// サインイン
+.signin {
+  //margin-left: 30px;
+}
+
+// プライバシーポリシー
+.privacy-policy, .terms-of-use {
+  h4 { 
+    background-image: linear-gradient(@hiddeste-black, @hiddeste-dark-black);
+    color: @hiddeste-white;
+    text-indent:10px;
+    border-radius: 3px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .article {
+    //background-color: @hiddeste-gray;
+    background-color: @hero-unit_default_background-color;
+    border-radius: 5px;
+    line-height: 25px;
+    margin-bottom: 25px;
+    word-spacing: 2px;
+    p {
+      margin-left:  20px;
+      margin-right: 20px;
+    }
+    ol {
+      margin-left:  36px;
+      margin-right: 36px;
+    }
+    ul {
+      list-style: none;
+    }
+  }
+  .contact {
+    background-color: @hero-unit_default_background-color;
+    border-radius: 5px;
+    address {
+      margin-left:  20px;
+      margin-right: 20px;
+    }
+  }
+  .concluded {
+    margin-top: 20px;
+    text-align: right;
+  }
+}
+
+// ナビゲーションバーの色変更
+.nav-tabs {
+  background-image: linear-gradient(@hiddeste-black, @hiddeste-dark-black);
+  border-radius: 5px;
+  a {
+    color: @hiddeste-white;
+  }
+  a:hover {
+    color: @hiddeste-dark-black;
+  }
+
+  .dropdown-toggle {
+    .caret {
+      border-top: 4px solid @hiddeste-white;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+    }
+  }
+  .dropdown-toggle:hover {
+    .caret {
+      border-top: 4px solid @hiddeste-dark-black;
+      border-right: 4px solid transparent;
+      border-left: 4px solid transparent;
+    }
+  }
+
+  .dropdown-menu {
+    background-image: linear-gradient(@hiddeste-black, @hiddeste-dark-black);
+    border-radius: 5px;
+    li {
+      a {
+        color: @hiddeste-white;
+      }
+      a:hover {
+        color: @hiddeste-dark-black;
+        background-color: @hiddeste-white;
+        background-image: -moz-linear-gradient(top, @hiddeste-white, @hiddeste-white);
+        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(@hiddeste-white), to(@hiddeste-white));
+        background-image: -webkit-linear-gradient(top, @hiddeste-white, @hiddeste-white);
+        background-image: -o-linear-gradient(top, @hiddeste-white, @hiddeste-white);
+        background-image: linear-gradient(to bottom, @hiddeste-white, @hiddeste-white);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@hiddeste-white', endColorstr='@hiddeste-white', GradientType=0);
+      }
+    }
+  }
+}
+
+// table-striped 背景色の変更
+.table-striped tbody tr:nth-child(odd) td,
+.table-striped tbody tr:nth-child(odd) th {
+  background-color: @hiddeste-light-gray;
+}

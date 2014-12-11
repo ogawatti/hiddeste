@@ -1,0 +1,27 @@
+defaults: &defaults
+  og:
+    url:      http://hidaste.local.jp:3456/
+    title:    Hidaste
+    type:     article
+    image:    http://hidaste.local.jp:3456/assets/logo120x75.png
+    site_name:  Hidaste
+    description: This application manages the information and participants of the event.
+    article:
+      author:  <%= ENV['HIDASTE_FACEBOOK_APP_OWNER'] %>
+  facebook:
+    app:
+       id:     <%= ENV['HIDASTE_FACEBOOK_APP_ID'] %>
+       secret: <%= ENV['HIDASTE_FACEBOOK_APP_SECRET'] %>
+  contact:
+    email: hidaste-support@hidaste.local.jp
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  og:
+    url:      https://hidaste.herokuapp.com/
+    image:    https://hidaste.herokuapp.com/assets/logo120x75.png
+  contact:
+    email: hidaste-support@gmail.com
