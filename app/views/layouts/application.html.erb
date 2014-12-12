@@ -9,13 +9,14 @@
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
 
-    <meta property="og:url"   content="<%= @og.url %>">
-    <meta property="og:title" content="<%= @og.title %>">
-    <meta property="og:type"  content="<%= @og.type %>">
-    <meta property="og:image" content="<%= @og.image %>">
-    <meta property="og:site_name" content="<%= @og.site_name %>">
-    <meta property="og:description" content="<%= @og.description %>">
-    <meta property="article:author" content="<%= @og.article_author %>" >
+    <meta property="fb:app_id"      content="<%= @og.facebook_app_id %>" />
+    <meta property="og:url"         content="<%= @og.url %>" />
+    <meta property="og:title"       content="<%= @og.title %>" />
+    <meta property="og:type"        content="<%= @og.type %>" />
+    <meta property="og:image"       content="<%= @og.image %>" />
+    <meta property="og:site_name"   content="<%= @og.site_name %>" />
+    <meta property="og:description" content="<%= @og.description %>" />
+    <meta property="article:author" content="<%= @og.article_author %>" />
   </head>
 
   <body>

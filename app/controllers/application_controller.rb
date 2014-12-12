@@ -24,5 +24,6 @@ class ApplicationController < ActionController::Base
       @og.send(tag + "=", Settings.og.send(tag)) unless tag == "article"
     end
     @og.article_author = Settings.og.article.author
+    @og.facebook_app_id = Settings.facebook.app.id
   end
 end
