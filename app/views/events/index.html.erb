@@ -1,13 +1,7 @@
 <%- model_class = Event -%>
 
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+  <h1><%=t '.title', default: model_class.model_name.human.pluralize.titleize %></h1>
 </div>
 
-<% event_create_button_class = "btn btn-hiddeste" %>
-
-<% if logged_in? %>
-  <%= button_to "Create New Event", { :action => "new" }, :class => event_create_button_class, method: :get %>
-<% end %>
-
-<%= render :partial => 'index' %>
+<%= render partial: 'index' %>

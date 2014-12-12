@@ -20,13 +20,13 @@
 <% event_remove_button_class = "btn btn-danger" %>
 
 <%= form_for @event,
-  :url  => { action: form_action_name },
-  :html => { method: form_method_name, :class => 'form-horizontal' } do |f| %>
+  url:  { action: form_action_name },
+  html: { method: form_method_name, :class => 'form-horizontal' } do |f| %>
 
   <div class="control-group">
     <%= f.label :id, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :id, :readonly => true %>
+      <%= f.text_field :id, readonly: true %>
     </div>
   </div>
   <div class="control-group <%= errors[:name] %>">
@@ -52,21 +52,21 @@
   <div class="control-group">
     <%= f.label :organizer_id, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :organizer_name, :readonly => true %>
+      <%= f.text_field :organizer_name, readonly: true %>
     </div>
   </div>
   <div class="control-group" <%= errors[:description] %>>
     <%= f.label :description, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_area :description, :class => 'text_area', :size => "37x5" %>
+      <%= f.text_area :description, :class => 'text_area', size: "37x5" %>
     </div>
   </div>
 
   <% if @event.persisted? %>
     <!-- Event更新 -->
     <div class="form-actions">
-      <% submit_options = { :name => 'update', :class => event_button_class } %>
-      <% submit_options.merge!({ :disabled => true }) unless organizer? %>
+      <% submit_options = { name: 'update', :class => event_button_class } %>
+      <% submit_options.merge!({ disabled: true }) unless organizer? %>
       <%= f.submit "Update", submit_options %>
       
       <!-- Event更新Cancelボタン(link) -->
@@ -87,9 +87,9 @@
   <% else %>
     <!-- Event作成ボタン -->
     <div class="form-actions">
-      <%= f.submit "Create", :name => 'create', :class => event_button_class %>
+      <%= f.submit "Create", name: :create, :class => event_button_class %>
       <!-- Event更新Cancelボタン -->
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), events_path, :class => event_cancel_button_class %>
+      <%= link_to t('.cancel', default: t("helpers.links.cancel")), events_path, :class => event_cancel_button_class %>
     </div>
   <% end %>
 <% end %>

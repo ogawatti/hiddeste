@@ -1,14 +1,7 @@
 Hiddeste::Application.routes.draw do
-  get "notices/index"
-
-  get "notices/new"
-
-  get "notices/create"
-
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   get    "signin/:provider",   to: "users#signin"
-  get    "users/",             to: "users#index"
   get    "users/:id",          to: "users#show"
   get    "users/:id/new",      to: "users#new"
   get    "users/:id/edit",     to: "users#edit"
@@ -25,9 +18,7 @@ Hiddeste::Application.routes.draw do
   put    "events/:id", to: "events#update"
   delete "events/:id", to: "events#destroy"
 
-  get  "notices",                     to: "notices#index"
   post "notices",                     to: "notices#create"
-  post "notices/create",              to: "notices#create"
   get  "notices/new/event/:event_id", to: "notices#new"
 
   get "authentication"  => "statics#authentication"

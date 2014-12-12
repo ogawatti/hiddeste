@@ -9,9 +9,9 @@
 <% notice_all_button_class   = "btn btn-hiddeste-info" %>
 
 <!-- Event情報入力フォーム & ボタン -->
-<%= render :partial => 'form' %>
+<%= render partial: 'form' %>
 
-<br><hr>
+<hr>
 
 <!-- Event参加者一覧 -->
 <h3> Joined Users</h3>
@@ -21,12 +21,12 @@
   <% if @event.users.include?(current_user) %>
     <% event_join_name         = "Leave" %>
     <% if organizer? %>
-      <% event_join_url = "#" %>
+      <% event_join_url          = "#" %>
       <% event_user_button_class = event_leave_button_class + " disabled" %>
       <% event_join_method       = nil %>
     <% else %>
-      <% user_event = UserEvent.where(user_id: current_user.id, event_id: @event.id).first %>
-      <% event_join_url = url_for(controller: "user/events", action: :destroy, id: user_event.id) %>
+      <% user_event              = UserEvent.where(user_id: current_user.id, event_id: @event.id).first %>
+      <% event_join_url          = url_for(controller: "user/events", action: :destroy, id: user_event.id) %>
       <% event_user_button_class = event_leave_button_class %>
       <% event_join_method       = :delete %>
     <% end %>
@@ -36,7 +36,7 @@
     <% event_user_button_class = event_join_button_class %>
     <% event_join_method       = :post %>
   <% end %>
-  <% event_join_html_options = { :class  => event_user_button_class, :method => event_join_method } %>
+  <% event_join_html_options = { :class  => event_user_button_class, method: event_join_method } %>
   <%= link_to event_join_name, event_join_url, event_join_html_options %>
 
   <br><br>
@@ -53,33 +53,33 @@
   </thead>
   <tbody>
     <% @event.users.each do |user| %>
-      <% if current_user && user.id == current_user.id && user.id == @event.organizer_id %>
-        <tr class="hiddeste-warning">
-      <% elsif user.id == @event.organizer_id %>
-        <tr class="hiddeste-warning">
-      <% elsif current_user && user.id == current_user.id %>
-        <tr class="hiddeste-info">
+      <% if organizer?(user) %>
+        <% tr_class = "hiddeste-warning" %>
+      <% elsif current_user?(user) %>
+        <% tr_class = "hiddeste-info" %>
       <% else %>
-        <tr>
+        <% tr_class = "" %>
       <% end %>
-          <td><%= user.id %></td>
-          <td><%= user.name %></td>
-          <td>
-            <% if user.id == @event.organizer_id %>
-              <i class="icon-ok"></i>
-            <% end %>
-          </td>
-          <td>
-            <% if user.notice? %>
-              <i class="icon-ok"></i>
-            <% end %>
-          </td>
-        </tr>
+
+      <tr class="<%= tr_class %>">
+        <td><%= user.id %></td>
+        <td><%= user.name %></td>
+        <td>
+          <% if user.id == @event.organizer_id %>
+            <i class="icon-ok"></i>
+          <% end %>
+        </td>
+        <td>
+          <% if user.notice? %>
+            <i class="icon-ok"></i>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>
 
-<br><hr>
+<hr>
 
 <!-- お知らせ通知 -->
 <h3>Notice</h3>
@@ -97,7 +97,7 @@ Notify this event information to the Facebook feed.<br>
       <% notice_me_html_options = notice_html_options.dup %>
       <% message = "I will send a notification to your Facebook feed.\nAre you sure?" %>
       <% notice_me_html_options.merge!({ confirm: message }) %>
-      <% if current_user && @event.users.include?(current_user) %>
+      <% if current_user && @event.users.include?(current_user) && current_user.notice? %>
         <% notice_me_options.merge!({ user_id: current_user.id }) %>
       <% else %>
         <% notice_me_html_options.merge!({ disabled: true }) %>
@@ -119,11 +119,9 @@ Notify this event information to the Facebook feed.<br>
   </tr>
 </table>
 
-<h4>Notice Histroy</h4>
+<% unless @event.notices.empty? %>
+  <h4>Notice Histroy</h4>
 
-<% if @event.notices.empty? %>
-  <%= "nothing" %>
-<% else %>
   <table class="table table-condensed">
     <thead>
       <tr>
@@ -144,6 +142,3 @@ Notify this event information to the Facebook feed.<br>
     <% end %>
   </table>
 <% end %>
-
-<br><hr><br>
-

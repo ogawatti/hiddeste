@@ -67,6 +67,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  def organized_events
+    events.where(organizer_id: id)
+  end
+
   private
 
   def delete_permission
@@ -74,6 +78,6 @@ class User < ActiveRecord::Base
   end
 
   def delete_organized_event
-    events.each {|event| event.destroy }
+    organized_events.each {|event| event.destroy }
   end
 end

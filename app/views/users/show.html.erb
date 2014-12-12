@@ -3,10 +3,4 @@
   <h1><%=t '.title', :default => @user.name %></h1>
 </div>
 
-<% event_create_button_class = "btn btn-hiddeste" %>
-<% event_leave_button_class  = "btn btn-danger" %>
-
-<% create_event_options = { controller: :events, action: :new } %>
-<%= button_to "Create New Event", create_event_options, :class => event_create_button_class, method: :get %>
-
-<%= render :partial => 'events/index' %>
+<%= render partial: 'events/index' %>

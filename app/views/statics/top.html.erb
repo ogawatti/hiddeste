@@ -5,7 +5,7 @@
   <p>Participants will be able to notify its own feed.</p>
   <p>
     <% if logged_in? %>
-      <% try_options = { controller: :events, action: :index } %>
+      <% try_options = { controller: :events,  action: :index } %>
     <% else %>
       <% try_options = { controller: :statics, action: :authentication } %>
     <% end %>

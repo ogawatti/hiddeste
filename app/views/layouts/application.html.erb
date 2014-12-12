@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Hiddeste" %></title>
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= stylesheet_link_tag "application", media: "all" %>
     <%= javascript_include_tag "application" %>
 
     <meta property="fb:app_id"      content="<%= @og.facebook_app_id %>" />
@@ -38,7 +38,8 @@
     <% tabs.sprt     = { terms_of_use:   { name: "Terms of Use",   path: "/terms_of_use" },
                          privacy_policy: { name: "Privacy Policy", path: "/privacy_policy" } } %>
     <% if logged_in? %>
-      <% tabs.mypage = { name: current_user.name, path: "/users/#{current_user.id}" } %>
+      <% user = current_user.errors.messages.blank? ? current_user : User.find_by_id(current_user.id) %>
+      <% tabs.mypage = { name: user.name, path: "/users/#{current_user.id}" } %>
       <% tabs.cog    = { config:  { name: "User Config", path: "/users/#{current_user.id}/edit" },
                          signout: { name: "Sign Out",    path: "/signout" } } %>
     <% else %>

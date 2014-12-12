@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  helper_method :organizer?, :event_state
+  helper_method :organizer?
   before_filter :new_event,  only: [:new, :create]
   before_filter :find_event, only: [:show, :update, :destroy]
 
@@ -55,8 +55,7 @@ class EventsController < ApplicationController
   end
 
   def find_event
-    id = params[:id]
-    @event = Event.find_by_id(id)
+    @event = Event.find_by_id(params[:id])
   end
 
   def save_event(options={})
@@ -67,27 +66,18 @@ class EventsController < ApplicationController
     @event.save
   end
 
+  def organizer?(user=nil)
+    if user.blank?
+      !!(logged_in? && @event.organizer == current_user)
+    else
+      !!(@event.organizer == user)
+    end
+  end
+
   def update_og_tag
     @og.url            = request.url
     @og.title          = @event.name
     @og.description    = @event.og_description
     @og.article_author = @event.organizer.link
-  end
-
-  def organizer?
-    logged_in? && @event.organizer.id == current_user.id
-  end
-
-  def event_state
-    case request.path
-    when /^\/events\/new$/
-      "new"
-    when /^\/events$/
-      request.method == "POST" ? "new" : nil
-    when /^\/events\/+\d$/
-      request.method == "UPDATE" ? "update" : nil
-    else
-      nil
-    end
   end
 end

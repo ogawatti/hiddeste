@@ -1,7 +1,6 @@
 <% errors = {} %>
 <% [:name].each do |key| %>
   <% errors[key] = @user.errors.messages[key].blank? ? "" : "error" %>
-  <%= errors[key] %>
 <% end %>
 
 <% user_button_class        = "btn btn-hiddeste" %>
@@ -9,13 +8,13 @@
 <% user_cancel_button_class = "btn btn-default" %>
 
 <%= form_for @user,
-  :url  => { :action => "update", :id => @user.id },
-  :html => { :method => :put, :class => 'form-horizontal' } do |f| %>
+  url:  { action: :update, id: @user.id },
+  html: { method: :put, :class => 'form-horizontal' } do |f| %>
 
   <div class="control-group">
     <%= f.label :id, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :id, :class => 'text_field', :readonly => true %>
+      <%= f.text_field :id, :class => 'text_field', readonly: true %>
     </div>
   </div>
   <div class="control-group <%= errors[:name] %>">
@@ -28,13 +27,13 @@
   <div class="control-group">
     <%= f.label :provider, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :provider, :class => 'text_field', :readonly => true %>
+      <%= f.text_field :provider, :class => 'text_field', readonly: true %>
     </div>
   </div>
   <div class="control-group">
     <%= f.label :uid, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :uid, :class => 'text_field', :readonly => true %>
+      <%= f.text_field :uid, :class => 'text_field', readonly: true %>
     </div>
   </div>
   <div class="control-group">
@@ -51,7 +50,7 @@
   <!-- Event更新ボタン -->
   <% save_button_name = @user.active? ? "Update" : "Registrate" %>
   <div class="form-actions">
-    <% submit_options = { :name => 'update', :class => user_button_class } %>
+    <% submit_options = { name: 'update', :class => user_button_class } %>
     <%= f.submit save_button_name, submit_options %>
 
     <% if @user.active? %>

@@ -11,17 +11,17 @@ Read the <%= link_to "Terms of use", "/terms_of_use" %>, on the agreement, pleas
 
 <div class="signin">
 <%= form_for User.new,
-      :url => { controller: :users, action: :signin, provider: :facebook },
-      :html => { method: :get } do |f| %>
+      url:  { controller: :users, action: :signin, provider: :facebook },
+      html: { method: :get } do |f| %>
   <p>
     <label class="checkbox" for="check">
-      <%= check_box :agree, "user_policy", { id: :check, value: true, type: "checkbox" } %>
+      <%= check_box :agree, "user_policy", { id: :check, value: true, type: :checkbox } %>
       I agree the Terms of use
     </label>
   </p>
-  <p><%= image_tag("FB-f-Logo__blue_512.png", :size => "216x216") %></p>
+  <p><%= image_tag("FB-f-Logo__blue_512.png", size: "216x216") %></p>
   <p>
-    <% signin_html_options = { type: "submit", id: "submit", :class => "btn btn-large btn-hiddeste"} %>
+    <% signin_html_options = { type: :submit, id: :submit, :class => "btn btn-large btn-hiddeste"} %>
     <%= f.submit "Sign in with Facebook", signin_html_options %>
   </p>
 </div>

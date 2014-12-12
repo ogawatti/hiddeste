@@ -14,12 +14,16 @@ class Event < ActiveRecord::Base
     User.find_by_id(self.organizer_id)
   end
 
+  def organizer?(user)
+    !!(organizer == user)
+  end
+
   def organizer_name
     User.find_by_id(self.organizer_id).name
   end
 
   def notice_users
-    users.select{|user| user.notice? }
+    users.where(notice: true)
   end
 
   def og_description
