@@ -107,7 +107,7 @@ Notify this event information to the Facebook feed.<br>
 
     <td>
       <!-- (主催者向け) イベント参加者全員のFacebookフィードにお知らせを通知する -->
-      <% if organizer? %>
+      <% if organizer? && @event.users.count > 1 %>
         <% notice_all_message = "Notify all user" %>
         <% notice_all_html_options = notice_html_options.dup %>
         <% message = "I will send a notification to all joined user's Facebook feed.\nAre you sure?" %>

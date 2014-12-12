@@ -38,7 +38,7 @@
     <% tabs.sprt     = { terms_of_use:   { name: "Terms of Use",   path: "/terms_of_use" },
                          privacy_policy: { name: "Privacy Policy", path: "/privacy_policy" } } %>
     <% if logged_in? %>
-      <% tabs.mypage = { name: "My Page", path: "/users/#{current_user.id}" } %>
+      <% tabs.mypage = { name: current_user.name, path: "/users/#{current_user.id}" } %>
       <% tabs.cog    = { config:  { name: "User Config", path: "/users/#{current_user.id}/edit" },
                          signout: { name: "Sign Out",    path: "/signout" } } %>
     <% else %>
@@ -62,9 +62,6 @@
         <% if tabs.event %>
           <li class="<%= tabs.event.li_class %>"><%= link_to tabs.event.name, tabs.event.path %></li>
         <% end %>
-        <% if logged_in? %>
-          <li class="<%= tabs.mypage.li_class %>"><%= link_to tabs.mypage.name, tabs.mypage.path %></li>
-        <% end %>
         <li class="dropdown <%= tabs.sprt.li_class %>">
           <a class="dropdown-toggle" data-toggle="dropdown" href="#">Support<b class="caret"></b></a>
           <ul class="dropdown-menu">
@@ -73,6 +70,7 @@
           </ul>
         </li>
         <% if logged_in? %>
+          <li class="<%= tabs.mypage.li_class %>"><%= link_to tabs.mypage.name, tabs.mypage.path %></li>
           <li class="dropdown <%= tabs.cog.li_class %>">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cog"></i><b class="caret"></b></a>
             <ul class="dropdown-menu">
