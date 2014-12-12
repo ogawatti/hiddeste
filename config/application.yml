@@ -21,7 +21,13 @@ development:
 production:
   <<: *defaults
   og:
-    url:      https://hiddeste.herokuapp.com/
-    image:    https://hiddeste.herokuapp.com/assets/logo120x75.png
+    url:      http://hiddeste.local.jp:3456/
+    title:    Hiddeste
+    type:     article
+    image:    http://hiddeste.local.jp:3456/assets/logo120x75.png
+    site_name:  Hiddeste
+    description: This application manages the information and participants of the event.
+    article:
+      author:  <%= ENV['HIDASTE_FACEBOOK_APP_OWNER'] %>
   contact:
     email: hiddeste@gmail.com
