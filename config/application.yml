@@ -3,7 +3,7 @@ defaults: &defaults
     url:      http://hiddeste.local.jp:3456/
     title:    Hiddeste
     type:     article
-    image:    http://hiddeste.local.jp:3456/assets/logo1024x1024.png
+    image:    http://hiddeste.local.jp:3456/assets/logo200x200.png
     site_name:  Hiddeste
     description: This application manages the information and participants of the event.
     article:
@@ -24,7 +24,7 @@ production:
     url:      https://hiddeste.herokuapp.com/
     title:    Hiddeste
     type:     article
-    image:    https://hiddeste.herokuapp.com/assets/logo1024x1024.png
+    image:    https://hiddeste.herokuapp.com/assets/logo200x200.png
     site_name:  Hiddeste
     description: This application manages the information and participants of the event.
     article:
