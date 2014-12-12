@@ -21,10 +21,10 @@ development:
 production:
   <<: *defaults
   og:
-    url:      http://hiddeste.local.jp:3456/
+    url:      https://hiddeste.herokuapp.com/
     title:    Hiddeste
     type:     article
-    image:    http://hiddeste.local.jp:3456/assets/logo120x75.png
+    image:    https://hiddeste.herokuapp.com/assets/logo120x75.png
     site_name:  Hiddeste
     description: This application manages the information and participants of the event.
     article:
