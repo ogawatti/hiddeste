@@ -1,5 +1,6 @@
 module GraphAPI
-  ENDPOINT = "https://graph.facebook.com"
+  ENDPOINT    = "https://graph.facebook.com"
+  API_VERSION = "/v2.0"
 
   extend self
 
@@ -27,6 +28,7 @@ module GraphAPI
   def get(access_token, path="/me")
     connection = Faraday::Connection.new(:url => ENDPOINT)
     query = "access_token=#{access_token}"
-    response = connection.get(path + "?" + query)
+    request_path = API_VERSION + path + "?" + query
+    response = connection.get(request_path)
   end
 end
