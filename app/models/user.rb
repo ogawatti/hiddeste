@@ -1,9 +1,9 @@
 class User < ActiveRecord::Base
   #devise :database_authenticatable, :registerable,
   #       :recoverable, :rememberable, :trackable, :validatable
-  devise :omniauthable
+  devise :omniauthable, omniauth_providers: [:facebook, :twitter]
 
-  attr_accessible :notice, :active, :uid, :name, :provider, :access_token, :link, :version
+  attr_accessible :notice, :active, :uid, :name, :provider, :access_token, :access_token_secret, :link, :version
 
   has_many :user_events
   has_many :events, :through => :user_events
@@ -34,15 +34,26 @@ class User < ActiveRecord::Base
 
     def create_with_auth_hash(auth_hash)
       access_token = auth_hash.credentials.token
-      version = GraphAPI.version(access_token)
+      link = nil
+
+      case auth_hash.provider
+      when "facebook"
+        version = GraphAPI.version(access_token)
+        link = auth_hash.extra.raw_info.link
+      when "twitter"
+        version = auth_hash.extra.access_token.consumer.options[:oauth_version]
+        link = "https://twitter.com/#{auth_hash.extra.raw_info.name}"
+      end
+
       user = User.new( 
-        notice:       true,
-        uid:          auth_hash.uid,
-        name:         auth_hash.extra.raw_info.name,
-        provider:     auth_hash.provider,
-        link:         auth_hash.extra.raw_info.link,
-        access_token: access_token,
-        version:      version
+        notice:              true,
+        uid:                 auth_hash.uid,
+        name:                auth_hash.extra.raw_info.name,
+        provider:            auth_hash.provider,
+        link:                link,
+        access_token:        access_token,
+        access_token_secret: auth_hash.credentials.secret,
+        version:             version
       )
       user.save!
       user

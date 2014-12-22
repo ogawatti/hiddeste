@@ -9,6 +9,8 @@
     <%= stylesheet_link_tag "application", media: "all" %>
     <%= javascript_include_tag "application" %>
 
+    <meta name="twitter:card"       content="<%= @og.twitter.card %>" />
+    <meta name="twitter:site"       content="<%= @og.twitter.site %>" />
     <meta property="fb:app_id"      content="<%= @og.facebook_app_id %>" />
     <meta property="og:url"         content="<%= @og.url %>" />
     <meta property="og:title"       content="<%= @og.title %>" />

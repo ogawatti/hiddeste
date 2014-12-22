@@ -1,5 +1,19 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
+    authenticate
+  end
+
+  def twitter
+    authenticate
+  end
+
+  def failure
+    redirect_to "/"
+  end
+
+  private
+
+  def authenticate
     auth_hash = request.env['omniauth.auth']
 
     user = User.find_or_create_with_auth_hash(auth_hash)
@@ -17,9 +31,5 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     session[:callback_path] = nil
     redirect_to callback_path
-  end 
-
-  def failure
-    redirect_to "/" 
-  end 
+  end
 end

@@ -24,6 +24,9 @@ class ApplicationController < ActionController::Base
 
   def create_og_tag
     @og = Hashie::Mash.new
+    @og.twitter = Hashie::Mash.new
+    @og.twitter.card = Settings.twitter.card
+    @og.twitter.site = "@" + Settings.twitter.site.name
     @og.facebook_app_id = Settings.facebook.app.id
     Settings.og.each_key do |tag|
       @og.send(tag + "=", Settings.og.send(tag)) unless tag == "article"

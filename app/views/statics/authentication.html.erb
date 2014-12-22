@@ -10,21 +10,43 @@ Read the <%= link_to "Terms of use", "/terms_of_use" %>, on the agreement, pleas
 </p>
 
 <div class="signin">
-<%= form_for User.new,
+  <% signin_button_size = "256px" %>
+  <% facebook_signin_image_size = "256x256" %>
+  <% twitter_signin_image_size  = "256x256" %>
+  <% signin_html_options = { type: :submit,
+                             :class => "btn btn-large btn-hiddeste",
+                             style: "width: #{signin_button_size};" } %>
+  <label class="checkbox" for="check">
+    <%= check_box :agree, "user_policy", { id: :check, value: true, type: :checkbox } %>
+    I agree the Terms of use
+  </label>
+
+  <div class="facebook" style="float:left;">
+    <%= form_for User.new,
       url:  { controller: :users, action: :signin, provider: :facebook },
       html: { method: :get } do |f| %>
-  <p>
-    <label class="checkbox" for="check">
-      <%= check_box :agree, "user_policy", { id: :check, value: true, type: :checkbox } %>
-      I agree the Terms of use
-    </label>
-  </p>
-  <p><%= image_tag("FB-f-Logo__blue_512.png", size: "216x216") %></p>
-  <p>
-    <% signin_html_options = { type: :submit, id: :submit, :class => "btn btn-large btn-hiddeste"} %>
-    <%= f.submit "Sign in with Facebook", signin_html_options %>
-  </p>
-</div>
+      <p>
+        <%= image_tag("FB-f-Logo__blue_512.png", size: facebook_signin_image_size) %>
+      </p>
+      <p>
+        <% facebook_signin_html_options = signin_html_options.merge({ id: :submit_facebook }) %>
+        <%= f.submit "Sign in with Facebook", facebook_signin_html_options %>
+      </p>
+    <% end %>
+  </div>
 
-<% end %>
+  <div class="twitter" style="float:left;">
+    <%= form_for User.new,
+      url:  { controller: :users, action: :signin, provider: :twitter },
+      html: { method: :get } do |f| %>
+      <p>
+        <%= image_tag("Twitter_logo_blue.png", size: twitter_signin_image_size) %>
+      </p>
+      <p>
+        <% twitter_signin_html_options = signin_html_options.merge({ id: :submit_twitter }) %>
+        <%= f.submit "Sign in with Twitter", twitter_signin_html_options %>
+      </p>
+    <% end %>
+  </div>
+</div>
 

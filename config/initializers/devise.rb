@@ -230,6 +230,9 @@ Devise.setup do |config|
                    Settings.facebook.app.id,
                    Settings.facebook.app.secret,
                    { :scope => 'publish_actions' } )
+  config.omniauth( :twitter,
+                   Settings.twitter.api.key,
+                   Settings.twitter.api.secret )
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
