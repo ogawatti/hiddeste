@@ -13,6 +13,10 @@ defaults: &defaults
       id:     <%= ENV['HIDASTE_FACEBOOK_APP_ID'] %>
       secret: <%= ENV['HIDASTE_FACEBOOK_APP_SECRET'] %>
   twitter:
+    card: summary
+    site:
+      name: <%= ENV['HIDASTE_TWITTER_SITE_USER'] %>
+      id:   <%= ENV['HIDASTE_TWITTER_SITE_USER_ID'] %>
     api:
       key:    <%= ENV['HIDASTE_TWITTER_API_KEY'] %>
       secret: <%= ENV['HIDASTE_TWITTER_API_SECRET'] %>
