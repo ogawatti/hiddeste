@@ -16,13 +16,16 @@
 //= require_tree .
 
 $(function() {
-  $('#submit').attr('disabled', 'disabled');
+  $('#submit_facebook').attr('disabled', 'disabled');
+  $('#submit_twitter').attr('disabled', 'disabled');
   
   $('#check').click(function() {
     if ($(this).prop('checked') == false) {
-      $('#submit').attr('disabled', 'disabled');
+      $('#submit_facebook').attr('disabled', 'disabled');
+      $('#submit_twitter').attr('disabled', 'disabled');
     } else {
-      $('#submit').removeAttr('disabled');
+      $('#submit_facebook').removeAttr('disabled');
+      $('#submit_twitter').removeAttr('disabled');
     }
   });
 });

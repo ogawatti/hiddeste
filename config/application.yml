@@ -10,8 +10,15 @@ defaults: &defaults
       author:  <%= ENV['HIDASTE_FACEBOOK_APP_OWNER'] %>
   facebook:
     app:
-       id:     <%= ENV['HIDASTE_FACEBOOK_APP_ID'] %>
-       secret: <%= ENV['HIDASTE_FACEBOOK_APP_SECRET'] %>
+      id:     <%= ENV['HIDASTE_FACEBOOK_APP_ID'] %>
+      secret: <%= ENV['HIDASTE_FACEBOOK_APP_SECRET'] %>
+  twitter:
+    api:
+      key:    <%= ENV['HIDASTE_TWITTER_API_KEY'] %>
+      secret: <%= ENV['HIDASTE_TWITTER_API_SECRET'] %>
+    owner:
+      name: <%= ENV['HIDASTE_TWITTER_OWNER'] %>
+      id:   <%= ENV['HIDASTE_TWITTER_OWNER_ID'] %>
   contact:
     email: hiddeste@hiddeste.local.jp
 

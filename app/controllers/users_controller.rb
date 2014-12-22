@@ -3,8 +3,9 @@ class UsersController < ApplicationController
   before_filter :validate_user, except: [:signin, :index]
 
   def signin
-    if params["agree"]["user_policy"].to_i == 1
-      redirect_to user_omniauth_authorize_path(:facebook)
+    case provider = params[:provider]
+    when "facebook", "twitter"
+      redirect_to user_omniauth_authorize_path(provider)
     else
       redirect_to "/authentication"
     end
